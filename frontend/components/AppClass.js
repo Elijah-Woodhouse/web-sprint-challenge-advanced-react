@@ -15,7 +15,7 @@ const initialState = {
   message: initialMessage,
   email: initialEmail,
   index: initialIndex,
-  coordinates: [2, 2],
+  coordinates: "2, 2",
   movesX: 0,
   movesY: 0,
   steps: initialSteps,
@@ -37,6 +37,7 @@ export default class AppClass extends React.Component {
 
   handleTurn = (index) => {
     console.log(index);
+    const message = this.getXYMessage(index)
     const newBoard = [ ...this.state.board];
     newBoard[index] = this.state.currentIndex;
     this.setState({
@@ -44,7 +45,11 @@ export default class AppClass extends React.Component {
       board: newBoard,
       currentIndex: this.move(this.state.currentIndex),
       steps: this.state.steps + 1,
+      coordinates: message,
     })
+
+    console.log(this.state.coordinates);
+    //return message
   }
 
   getXY = (index) => {
@@ -70,16 +75,17 @@ export default class AppClass extends React.Component {
     } else if(index === 8) {
       coordinates = [ 3, 3 ]
     }
-    console.log(coordinates)
     return coordinates
   }
 
-  getXYMessage = (index) => {
+  getXYMessage = (idx) => {
     // It it not necessary to have a state to track the "Coordinates (2, 2)" message for the user.
     // You can use the `getXY` helper above to obtain the coordinates, and then `getXYMessage`
     // returns the fully constructed string.
-    const cords = getXY(index)
-    return (`${cords[0]}, ${cords[1]}`)
+    const cords = this.getXY(idx)
+    const string = `${cords[0]}, ${cords[1]}`
+    return string
+
   }
 
   reset = () => {
@@ -114,6 +120,7 @@ export default class AppClass extends React.Component {
   render() {
     const { className } = this.props
     const { board, currentTurn, coordinates, steps } = this.state
+
     return (
       <div id="wrapper" className={className}>
         <div className="info">
@@ -123,7 +130,7 @@ export default class AppClass extends React.Component {
         <div id="grid">
           {
             board.map((val, idx) => {
-              return (<div key={idx} onClick={() => this.getXYMessage(idx)} className={`square${val ? ' active' : ''}`}>
+              return (<div key={idx} onClick={() => this.handleTurn(idx)} className={`square${val ? ' active' : ''}`}>
                 {val}
               </div>
             );
