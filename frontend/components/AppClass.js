@@ -89,7 +89,7 @@ export default class AppClass extends React.Component {
   }
 
   reset = () => {
-    // Use this helper to reset all states to their initial values.
+    this.setState(initialState)
   }
 
   getNextIndex = (direction) => {
@@ -144,7 +144,7 @@ export default class AppClass extends React.Component {
           <button id="up">UP</button>
           <button id="right">RIGHT</button>
           <button id="down">DOWN</button>
-          <button id="reset">reset</button>
+          <button onClick={() => this.reset()} id="reset">reset</button>
         </div>
         <form>
           <input id="email" type="email" placeholder="type email"></input>
