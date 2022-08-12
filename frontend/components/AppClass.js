@@ -1,25 +1,62 @@
 import React from 'react'
+import axios from 'axios'
 
 // Suggested initial states
 const initialMessage = ''
 const initialEmail = ''
 const initialSteps = 0
-const initialIndex = 4 // the index the "B" is at
+const initialIndex = 4
+const board = ["", "", "", "", "B", "", "", "", ""]
+ // the index the "B" is at
 
 const initialState = {
+  letterB: "B",
+  currentIndex: "B",
   message: initialMessage,
   email: initialEmail,
   index: initialIndex,
+  coordinates: [2, 2],
+  movesX: 0,
+  movesY: 0,
   steps: initialSteps,
+  board: ["", "", "", "", "", "", "", "", ""]
 }
+
+
+// ```js
+//   (1, 1) (2, 1) (3, 1)
+//   (1, 2) (2, 2) (3, 2)
+//   (1, 3) (2, 3) (3, 3)
+// ```
 
 export default class AppClass extends React.Component {
   // THE FOLLOWING HELPERS ARE JUST RECOMMENDATIONS.
   // You can delete them and build your own logic from scratch.
 
-  getXY = () => {
+  state = initialState;
+
+  handleTurn = (index) => {
+    console.log(index);
+    const newBoard = [ ...this.state.board];
+    newBoard[index] = this.state.currentIndex;
+    this.setState({
+      ...this.state,
+      board: newBoard,
+      currentIndex: this.move(this.state.currentIndex),
+      steps: this.state.steps + 1,
+      movesX: this.state.currentIndex === "B" ? this.state.movesX + 1 : this.state.movesX,
+      movesY: this.state.currentIndex === "B" ? this.state.movesY + 1 : this.state.movesY,
+    })
+  }
+
+  getXY = (index) => {
     // It it not necessary to have a state to track the coordinates.
     // It's enough to know what index the "B" is at, to be able to calculate them.
+    this.state.board.map((square, idx) => {
+      if (idx === index){
+
+      }
+    })
   }
 
   getXYMessage = () => {
@@ -38,9 +75,15 @@ export default class AppClass extends React.Component {
     // this helper should return the current index unchanged.
   }
 
-  move = (evt) => {
+  move = (currentIndex) => {
+    if (currentIndex === "B") {
+      return "";
+    } else {
+      return "B";
+    }
     // This event handler can use the helper above to obtain a new index for the "B",
     // and change any states accordingly.
+    //move(getNextIndex)
   }
 
   onChange = (evt) => {
@@ -53,26 +96,27 @@ export default class AppClass extends React.Component {
 
   render() {
     const { className } = this.props
+    const { board, currentTurn, coordinates } = this.state
     return (
       <div id="wrapper" className={className}>
         <div className="info">
-          <h3 id="coordinates">Coordinates (2, 2)</h3>
+          <h3 id="coordinates">{coordinates}</h3>
           <h3 id="steps">You moved 0 times</h3>
         </div>
         <div id="grid">
           {
-            [0, 1, 2, 3, 4, 5, 6, 7, 8].map(idx => (
-              <div key={idx} className={`square${idx === 4 ? ' active' : ''}`}>
-                {idx === 4 ? 'B' : null}
+            board.map((val, idx) => {
+              return (<div key={idx} onClick={() => this.handleTurn(idx)} className={`square${val ? ' active' : ''}`}>
+                {val}
               </div>
-            ))
-          }
+            );
+            })}
         </div>
         <div className="info">
           <h3 id="message"></h3>
         </div>
         <div id="keypad">
-          <button id="left">LEFT</button>
+          <button onClick="" id="left">LEFT</button>
           <button id="up">UP</button>
           <button id="right">RIGHT</button>
           <button id="down">DOWN</button>
