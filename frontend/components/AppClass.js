@@ -3,7 +3,7 @@ import axios from 'axios'
 
 // Suggested initial states
 const initialMessage = ''
-const initialEmail = ''
+const initialEmail = 'lady@gaga.com'
 const initialSteps = 0
 const initialIndex = 4
 const board = ["", "", "", "", "", "", "", "", ""]
@@ -20,7 +20,8 @@ const initialState = {
   movesX: 0,
   movesY: 0,
   steps: initialSteps,
-  board: ["", "", "", "", "", "", "", "", ""]
+  board: ["", "", "", "", "", "", "", "", ""],
+  url: "http://localhost:9000/api/result"
 }
 
 
@@ -38,19 +39,19 @@ export default class AppClass extends React.Component {
     if (index === 0) {
       coordinates = [ 1, 1 ]
     } else if(index === 1) {
-      coordinates = [ 1, 2 ]
-    } else if(index === 2) {
-      coordinates = [ 1, 3 ]
-    } else if(index === 3) {
       coordinates = [ 2, 1 ]
+    } else if(index === 2) {
+      coordinates = [ 3, 1 ]
+    } else if(index === 3) {
+      coordinates = [ 1, 2 ]
     } else if(index === 4) {
       coordinates = [ 2, 2 ]
     } else if(index === 5) {
-      coordinates = [ 2, 3 ]
-    } else if(index === 6) {
-      coordinates = [ 3, 1 ]
-    } else if(index === 7) {
       coordinates = [ 3, 2 ]
+    } else if(index === 6) {
+      coordinates = [ 1, 3 ]
+    } else if(index === 7) {
+      coordinates = [ 2, 3 ]
     } else if(index === 8) {
       coordinates = [ 3, 3 ]
     }
@@ -108,21 +109,21 @@ export default class AppClass extends React.Component {
 //This handles all the error messages when a user tries to
 //move the box further than it can go.
 errors = (direction) => {
-  if(direction === 'right' && this.state.index === 2) return "You can't move right"
-  if(direction === 'right' && this.state.index === 5) return "You can't move right"
-  if(direction === 'right' && this.state.index === 8) return "You can't move right"
+  if(direction === 'right' && this.state.index === 2) return "You can't go right"
+  if(direction === 'right' && this.state.index === 5) return "You can't go right"
+  if(direction === 'right' && this.state.index === 8) return "You can't go right"
 
-  if(direction === 'left' && this.state.index === 0) return "You can't move left"
-  if(direction === 'left' && this.state.index === 3) return "You can't move left"
-  if(direction === 'left' && this.state.index === 6) return "You can't move left"
+  if(direction === 'left' && this.state.index === 0) return "You can't go left"
+  if(direction === 'left' && this.state.index === 3) return "You can't go left"
+  if(direction === 'left' && this.state.index === 6) return "You can't go left"
 
-  if(direction === 'up' && this.state.index === 0) return "You can't move up"
-  if(direction === 'up' && this.state.index === 1) return "You can't move up"
-  if(direction === 'up' && this.state.index === 2) return "You can't move up"
+  if(direction === 'up' && this.state.index === 0) return "You can't go up"
+  if(direction === 'up' && this.state.index === 1) return "You can't go up"
+  if(direction === 'up' && this.state.index === 2) return "You can't go up"
 
-  if(direction === 'down' && this.state.index === 6) return "You can't move down"
-  if(direction === 'down' && this.state.index === 7) return "You can't move down"
-  if(direction === 'down' && this.state.index === 8) return "You can't move down"
+  if(direction === 'down' && this.state.index === 6) return "You can't go down"
+  if(direction === 'down' && this.state.index === 7) return "You can't go down"
+  if(direction === 'down' && this.state.index === 8) return "You can't go down"
 }
 
 
@@ -172,24 +173,44 @@ increaseSteps = (direction) => {
     //move(getNextIndex)
   }
 
-  onChange = (evt) => {
-    // You will need this to update the value of the input.
+  onChange = (event) => {
+    this.setState({
+      ...this.state,
+      email: event.target.value
+    })
   }
 
-  onSubmit = (evt) => {
-    // Use a POST request to send a payload to the server.
+  onSubmit = (event) => {
+    event.preventDefault()
+    const payload = {
+       x: this.state.coordinates[0],
+       y: this.state.coordinates[1],
+       steps: this.state.steps,
+       email: this.state.email }
+
+    axios.post(this.state.url, payload)
+      .then(res => {
+        console.log(res.data.message)
+        this.setState({...this.state, message: [res.data.message], email: ""})
+      })
+      .catch(res => {
+        this.setState({...this.state, message: res.response.data.message})
+      })
+      .finally(res => {
+        this.setState({...this.state, message: ""})
+      })
   }
 
   render() {
     const { className } = this.props
-    const { board, currentTurn, cordString, steps } = this.state
-    const message = this.getXY(this.state.index)
+    const { board, currentTurn, cordString, steps, message } = this.state
+    const cords = this.getXY(this.state.index)
 
     return (
       <div id="wrapper" className={className}>
         <div className="info">
-          <h3 id="coordinates">{message}</h3>
-          <h3 id="steps">You moved {steps} times</h3>
+          <h3 id="coordinates">({cords})</h3>
+          <h3 id="steps">You moved {this.state.steps} {this.state.steps < 2 ? "time" : "times"}</h3>
         </div>
         <div id="grid">
           {
@@ -201,7 +222,7 @@ increaseSteps = (direction) => {
           }
         </div>
         <div className="info">
-          <h3 id="message"></h3>
+          <h3 id="message">{message}</h3>
         </div>
         <div id="keypad">
           <button onClick={this.move} id="left">LEFT</button>
@@ -212,7 +233,7 @@ increaseSteps = (direction) => {
         </div>
         <form>
           <input id="email" type="email" placeholder="type email"></input>
-          <input id="submit" type="submit"></input>
+          <input onClick={this.onSubmit} id="submit" type="submit"></input>
         </form>
       </div>
     )
