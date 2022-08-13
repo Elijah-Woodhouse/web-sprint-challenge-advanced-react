@@ -3,7 +3,7 @@ import axios from 'axios'
 
 // Suggested initial states
 const initialMessage = ''
-const initialEmail = 'lady@gaga.com'
+const initialEmail = ''
 const initialSteps = 0
 const initialIndex = 4
 const board = ["", "", "", "", "", "", "", "", ""]
@@ -186,7 +186,7 @@ increaseSteps = (direction) => {
        x: this.state.coordinates[0],
        y: this.state.coordinates[1],
        steps: this.state.steps,
-       email: this.state.email }
+       email: "lady@gaga.com" }
 
     axios.post(this.state.url, payload)
       .then(res => {
@@ -195,9 +195,6 @@ increaseSteps = (direction) => {
       })
       .catch(res => {
         this.setState({...this.state, message: res.response.data.message})
-      })
-      .finally(res => {
-        this.setState({...this.state, message: ""})
       })
   }
 
@@ -210,7 +207,7 @@ increaseSteps = (direction) => {
       <div id="wrapper" className={className}>
         <div className="info">
           <h3 id="coordinates">({cords})</h3>
-          <h3 id="steps">You moved {this.state.steps} {this.state.steps < 2 ? "time" : "times"}</h3>
+          <h3 id="steps">You moved {this.state.steps} {this.state.steps === 1 ? "time" : "times"}</h3>
         </div>
         <div id="grid">
           {
