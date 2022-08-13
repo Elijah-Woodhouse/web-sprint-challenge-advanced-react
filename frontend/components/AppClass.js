@@ -30,26 +30,6 @@ export default class AppClass extends React.Component {
 
   state = initialState;
 
-  handleTurn = (index) => {
-    console.log(index);
-    const message = this.getXYMessage(index)
-    const coordinates = this.getXY(index)
-    const newBoard = [ ...this.state.board];
-    newBoard[index] = this.state.currentIndex;
-    this.setState({
-      ...this.state,
-      board: newBoard,
-      currentIndex: this.move(this.state.currentIndex),
-      steps: this.state.steps + 1,
-      cordString: message,
-      coordinates: coordinates,
-      index: index,
-    })
-    console.log(coordinates)
-    console.log(message)
-
-    //return message
-  }
 
   getXY = (index) => {
     // It it not necessary to have a state to track the coordinates.
@@ -74,17 +54,8 @@ export default class AppClass extends React.Component {
     } else if(index === 8) {
       coordinates = [ 3, 3 ]
     }
-    return coordinates
-  }
-
-  getXYMessage = (idx) => {
-    // It it not necessary to have a state to track the "Coordinates (2, 2)" message for the user.
-    // You can use the `getXY` helper above to obtain the coordinates, and then `getXYMessage`
-    // returns the fully constructed string.
-    const cords = this.getXY(idx)
-    const string = `${cords[0]}, ${cords[1]}`
+    const string = `${coordinates[0]}, ${coordinates[1]}`
     return string
-
   }
 
   reset = () => {
@@ -129,6 +100,8 @@ export default class AppClass extends React.Component {
     if(direction === 'left') return this.state.index - 1
     if(direction === 'up') return this.state.index - 3
     if(direction === 'down') return this.state.index + 3
+
+
 }
 
 
@@ -192,7 +165,6 @@ increaseSteps = (direction) => {
     index: this.getNextIndex(event.target.id),
     steps: this.increaseSteps(event.target.id),
     message: this.errors(event.target.id),
-    coordinates: this.getXY(this.state.index),
   })
     // This event handler can use the helper above to
     //obtain a new index for the "B",
@@ -211,11 +183,12 @@ increaseSteps = (direction) => {
   render() {
     const { className } = this.props
     const { board, currentTurn, cordString, steps } = this.state
+    const message = this.getXY(this.state.index)
 
     return (
       <div id="wrapper" className={className}>
         <div className="info">
-          <h3 id="coordinates">{cordString}</h3>
+          <h3 id="coordinates">{message}</h3>
           <h3 id="steps">You moved {steps} times</h3>
         </div>
         <div id="grid">
