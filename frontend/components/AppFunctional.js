@@ -187,7 +187,7 @@ const increaseSteps = (direction) => {
        x: state.coordinates[0],
        y: state.coordinates[1],
        steps: state.steps,
-       email: "lady@gaga.com" }
+       email: state.email }
 
     axios.post(state.url, payload)
       .then(res => {
@@ -226,8 +226,8 @@ const increaseSteps = (direction) => {
         <button onClick={reset} id="reset">reset</button>
       </div>
       <form onSubmit={onSubmit}>
-        <input id="email" type="email" placeholder="type email"></input>
-        <input onChange={onChange} id="submit" type="submit"></input>
+        <input onChange={onChange} id="email" type="email" placeholder="type email"></input>
+        <input id="submit" type="submit"></input>
       </form>
     </div>
   )
