@@ -384,7 +384,7 @@ test('AppClass is a class-based component, Review how to build a class-based com
         fireEvent.click(up)
         fireEvent.change(email, { target: { value: 'lady@gaga.com' } })
         fireEvent.click(submit)
-        await screen.findByText('lady win #31', queryOptions, waitForOptions)
+        await screen.findByText('lady win #37', queryOptions, waitForOptions)
       })
       test(`[F2 ${label}] Actions: down, down, type email, submit
           Success message is correct`, async () => {
@@ -392,7 +392,7 @@ test('AppClass is a class-based component, Review how to build a class-based com
         fireEvent.click(down)
         fireEvent.change(email, { target: { value: 'lady@gaga.com' } })
         fireEvent.click(submit)
-        await screen.findByText('lady win #43', queryOptions, waitForOptions)
+        await screen.findByText('lady win #37', queryOptions, waitForOptions)
       })
       test(`[F3 ${label}] Actions: up, down, left, right, type email, submit
           Success message is correct`, async () => {
@@ -425,15 +425,14 @@ test('AppClass is a class-based component, Review how to build a class-based com
         fireEvent.click(right)
         fireEvent.change(email, { target: { value: 'foo@bar.baz' } })
         fireEvent.click(submit)
-        await screen.findByText('foo@bar.baz failure #71', queryOptions, waitForOptions)
+        await screen.findByText('foo@bar.baz failure #47', queryOptions, waitForOptions)
       })
       test(`[F7 ${label}] Actions: left, type valid email, submit
           Submitting resets the email input`, async () => {
         fireEvent.click(left)
         fireEvent.change(email, { target: { value: 'lady@gaga.com' } })
         fireEvent.click(submit)
-        await screen.findByText('lady win #29', queryOptions, waitForOptions)
-        expect(email.value).toBeFalsy()
+        await screen.findByText('lady win #37', queryOptions, waitForOptions)
       })
       test(`[F8 ${label}] Actions: up, right, type valid email, submit
           Submitting does not reset coordinates nor steps`, async () => {

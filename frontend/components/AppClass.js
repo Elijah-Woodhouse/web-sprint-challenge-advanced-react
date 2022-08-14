@@ -174,9 +174,10 @@ increaseSteps = (direction) => {
   }
 
   onChange = (event) => {
+    const {value} = event.target
     this.setState({
       ...this.state,
-      email: event.target.value
+      email: value
     })
   }
 
@@ -228,9 +229,9 @@ increaseSteps = (direction) => {
           <button onClick={this.move} id="down">DOWN</button>
           <button onClick={() => this.reset()} id="reset">reset</button>
         </div>
-        <form>
+        <form onClick={this.onSubmit}>
           <input onChange={this.onChange} id="email" type="email" placeholder="type email"></input>
-          <input onClick={this.onSubmit} id="submit" type="submit"></input>
+          <input id="submit" type="submit"></input>
         </form>
       </div>
     )
