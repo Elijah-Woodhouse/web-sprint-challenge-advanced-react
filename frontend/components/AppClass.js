@@ -3,7 +3,7 @@ import axios from 'axios'
 
 // Suggested initial states
 const initialMessage = ''
-const initialEmail = ''
+const initialEmail = "lady@gaga.com"
 const initialSteps = 0
 const initialIndex = 4
 const board = ["", "", "", "", "", "", "", "", ""]
@@ -13,7 +13,7 @@ const initialState = {
   letterB: "B",
   currentIndex: "",
   message: initialMessage,
-  email: initialEmail,
+  email: "",
   index: initialIndex,
   cordString: "2, 2",
   coordinates: [2, 2],
@@ -61,6 +61,7 @@ export default class AppClass extends React.Component {
 
   reset = () => {
     this.setState(initialState)
+
   }
 
   getNextIndex = (direction) => {
@@ -192,10 +193,18 @@ increaseSteps = (direction) => {
     axios.post(this.state.url, payload)
       .then(res => {
         console.log(res.data.message)
-        this.setState({...this.state, message: [res.data.message], email: ""})
+        this.setState({
+          ...this.state,
+          message: [res.data.message],
+          email: "",
+        })
       })
       .catch(res => {
-        this.setState({...this.state, message: res.response.data.message})
+        this.setState({
+          ...this.state,
+          message: res.response.data.message,
+        email: ""
+      })
       })
   }
 
@@ -227,10 +236,10 @@ increaseSteps = (direction) => {
           <button onClick={this.move} id="up">UP</button>
           <button onClick={this.move} id="right">RIGHT</button>
           <button onClick={this.move} id="down">DOWN</button>
-          <button onClick={() => this.reset()} id="reset">reset</button>
+          <button onClick={this.reset} id="reset">reset</button>
         </div>
         <form onClick={this.onSubmit}>
-          <input onChange={this.onChange} id="email" type="email" placeholder="type email"></input>
+          <input value={this.state.email} onChange={this.onChange} id="email" type="email" placeholder="type email"></input>
           <input id="submit" type="submit"></input>
         </form>
       </div>

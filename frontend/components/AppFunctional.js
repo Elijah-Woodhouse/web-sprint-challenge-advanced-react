@@ -3,7 +3,7 @@ import axios from 'axios'
 
 // Suggested initial states
 const initialMessage = ''
-const initialEmail = ''
+const initialEmail = "lady@gaga.com"
 const initialSteps = 0
 const initialIndex = 4
 const board = ["", "", "", "", "", "", "", "", ""]
@@ -13,7 +13,7 @@ const initialState = {
   letterB: "B",
   currentIndex: "",
   message: initialMessage,
-  email: initialEmail,
+  email: "",
   index: initialIndex,
   cordString: "2, 2",
   coordinates: [2, 2],
@@ -226,7 +226,7 @@ const increaseSteps = (direction) => {
         <button onClick={reset} id="reset">reset</button>
       </div>
       <form onSubmit={onSubmit}>
-        <input onChange={onChange} id="email" type="email" placeholder="type email"></input>
+        <input value={state.email} onChange={onChange} id="email" type="email" placeholder="type email"></input>
         <input id="submit" type="submit"></input>
       </form>
     </div>
