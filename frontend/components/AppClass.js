@@ -192,7 +192,6 @@ increaseSteps = (direction) => {
 
     axios.post(this.state.url, payload)
       .then(res => {
-        console.log(res.data.message)
         this.setState({
           ...this.state,
           message: [res.data.message],
@@ -215,6 +214,7 @@ increaseSteps = (direction) => {
 
     return (
       <div id="wrapper" className={className}>
+      <h2>This is the Header!</h2>
         <div className="info">
           <h3 id="coordinates">({cords})</h3>
           <h3 id="steps">You moved {this.state.steps} {this.state.steps === 1 ? "time" : "times"}</h3>

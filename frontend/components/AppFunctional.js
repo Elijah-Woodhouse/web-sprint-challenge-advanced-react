@@ -171,7 +171,6 @@ const increaseSteps = (direction) => {
     //obtain a new index for the "B",
     // and change any states accordingly.
     //move(getNextIndex)
-    console.log(state.message)
   }
 
   const onChange = (event) => {
@@ -191,7 +190,6 @@ const increaseSteps = (direction) => {
 
     axios.post(state.url, payload)
       .then(res => {
-        console.log(res.data.message)
         setState({...state, message: [res.data.message], email: ""})
       })
       .catch(res => {
@@ -202,6 +200,7 @@ const increaseSteps = (direction) => {
   return (
 
     <div id="wrapper" className={props.className}>
+    <h2>This is the Header!</h2>
       <div className="info">
         <h3 id="coordinates">Coordinates ({getXY(state.index)})</h3>
         <h3 id="steps">You moved {state.steps} {state.steps === 1 ? "time" : "times"}</h3>
