@@ -16,7 +16,7 @@ const initialState = {
   email: "",
   index: initialIndex,
   cordString: "2, 2",
-  coordinates: [2, 2],
+  coordinates: [],
   movesX: 0,
   movesY: 0,
   steps: initialSteps,
@@ -42,25 +42,25 @@ export default function AppFunctional(props){
     // ```
     var coordinates = []
     if (index === 0) {
-      coordinates = [ 1, 1 ]
+      state.coordinates = [ 1, 1 ]
     } else if(index === 1) {
-      coordinates = [ 2, 1 ]
+      state.coordinates = [ 2, 1 ]
     } else if(index === 2) {
-      coordinates = [ 3, 1 ]
+      state.coordinates = [ 3, 1 ]
     } else if(index === 3) {
-      coordinates = [ 1, 2 ]
+      state.coordinates = [ 1, 2 ]
     } else if(index === 4) {
-      coordinates = [ 2, 2 ]
+      state.coordinates = [ 2, 2 ]
     } else if(index === 5) {
-      coordinates = [ 3, 2 ]
+      state.coordinates = [ 3, 2 ]
     } else if(index === 6) {
-      coordinates = [ 1, 3 ]
+      state.coordinates = [ 1, 3 ]
     } else if(index === 7) {
-      coordinates = [ 2, 3 ]
+      state.coordinates = [ 2, 3 ]
     } else if(index === 8) {
-      coordinates = [ 3, 3 ]
+      state.coordinates = [ 3, 3 ]
     }
-    const string = `${coordinates[0]}, ${coordinates[1]}`
+    const string = `${state.coordinates[0]}, ${state.coordinates[1]}`
     return string
   }
 
@@ -182,6 +182,7 @@ const increaseSteps = (direction) => {
 
   const onSubmit = (event) => {
     event.preventDefault()
+    console.log(state.coordinates)
     const payload = {
        x: state.coordinates[0],
        y: state.coordinates[1],

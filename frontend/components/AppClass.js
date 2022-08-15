@@ -35,27 +35,27 @@ export default class AppClass extends React.Component {
   getXY = (index) => {
     // It it not necessary to have a state to track the coordinates.
     // It's enough to know what index the "B" is at, to be able to calculate them.
-    var coordinates = []
     if (index === 0) {
-      coordinates = [ 1, 1 ]
+      this.state.coordinates = [ 1, 1 ]
     } else if(index === 1) {
-      coordinates = [ 2, 1 ]
+      this.state.coordinates = [ 2, 1 ]
     } else if(index === 2) {
-      coordinates = [ 3, 1 ]
+      this.state.coordinates = [ 3, 1 ]
     } else if(index === 3) {
-      coordinates = [ 1, 2 ]
+      this.state.coordinates = [ 1, 2 ]
     } else if(index === 4) {
-      coordinates = [ 2, 2 ]
+      this.state.coordinates = [ 2, 2 ]
     } else if(index === 5) {
-      coordinates = [ 3, 2 ]
+      this.state.coordinates = [ 3, 2 ]
     } else if(index === 6) {
-      coordinates = [ 1, 3 ]
+      this.state.coordinates = [ 1, 3 ]
     } else if(index === 7) {
-      coordinates = [ 2, 3 ]
+      this.state.coordinates = [ 2, 3 ]
     } else if(index === 8) {
-      coordinates = [ 3, 3 ]
+      this.state.coordinates = [ 3, 3 ]
     }
-    const string = `${coordinates[0]}, ${coordinates[1]}`
+    const string = `${this.state.coordinates[0]}, ${this.state.coordinates[1]}`
+    //console.log(string)
     return string
   }
 
@@ -184,6 +184,7 @@ increaseSteps = (direction) => {
 
   onSubmit = (event) => {
     event.preventDefault()
+    console.log(this.state.coordinates)
     const payload = {
        x: this.state.coordinates[0],
        y: this.state.coordinates[1],
@@ -238,7 +239,7 @@ increaseSteps = (direction) => {
           <button onClick={this.move} id="down">DOWN</button>
           <button onClick={this.reset} id="reset">reset</button>
         </div>
-        <form onClick={this.onSubmit}>
+        <form onSubmit={this.onSubmit}>
           <input value={this.state.email} onChange={this.onChange} id="email" type="email" placeholder="type email"></input>
           <input id="submit" type="submit"></input>
         </form>
