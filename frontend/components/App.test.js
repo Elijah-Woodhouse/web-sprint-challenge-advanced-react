@@ -28,6 +28,20 @@ const updateStatefulSelectors = document => {
   email = document.querySelector('#email')
 }
 
+const testFunction = (squares, activeIdx) => {
+  squares.forEach((square, idx) => {
+    if (idx === activeIdx) {
+      expect(square.textContent).toBe('B')
+      expect(square.className).toMatch(/active/)
+    } else {
+      expect(square.textContent).toBeFalsy()
+      expect(square.className).not.toMatch(/active/)
+    }
+  })
+}
+
+
+
 
 [AppFunctional, AppClass].forEach((Component, idx) => {
   const label = idx === 0 ? 'FUNCTIONAL' : 'CLASS-BASED'
@@ -50,8 +64,31 @@ const updateStatefulSelectors = document => {
       expect(header).toBeInTheDocument()
     });
 
-    test("checks for correct index based on square clicks", async() => {
+    test("checks for correct index based on square clicks. index should be 3", async() => {
+      fireEvent.click(down)
+      fireEvent.click(left)
+      fireEvent.click(up)
+      testFunction(squares, 3)
+    });
 
-    }
+    test(`checks for correct index based on square clicks. index should be 1`, () => {
+      fireEvent.click(down)
+      testFunction(squares, 7)
+    })
+
+    test("tests for the correct amount of steps based on clicks", () => {
+      fireEvent.click(down)
+      fireEvent.click(left)
+      fireEvent.click(right)
+      fireEvent.click(up)
+      fireEvent.click(right)
+      expect(steps.textContent).toBe("You moved 5 times")
+    })
+
+    test("tests for correct submission of email text content", () => {
+      fireEvent.change(email, { target: { value: 'Elijah@gmail.com' } })
+      fireEvent.click(submit)
+    })
+
 })
 })
